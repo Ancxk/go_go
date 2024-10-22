@@ -1,0 +1,20 @@
+{
+  "data": {
+    "ent": {
+      "total_en_used_count": 99,
+      "plan_info": {
+        "uid": 0,
+        "kid": 0,
+        "level": 0,
+        "idx": 0,
+        "secid": 0,
+        "title": "",
+        "ltype": 0,
+        "leveltext": ""
+      }
+    }
+  },
+  "ret": 1
+}
+
+
