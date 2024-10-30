@@ -134,9 +134,9 @@ func (p *pool) submit(fn func()) {
 }
 
 func main() {
-	st := time.Now().UnixMilli()
+	st := time.Now().Unix()
 	defer func() {
-		ut := time.Now().UnixMilli()
+		ut := time.Now().Unix()
 		log.Printf("%d ms", ut-st)
 	}()
 	p := newPool(100)

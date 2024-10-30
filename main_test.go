@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"net"
 	"testing"
 	"time"
 )
@@ -52,6 +53,37 @@ func Test_cancelctx(t *testing.T) {
 	}
 }
 
-func Test_ctx(t *testing.T) {
+func Test_go_ticker(t *testing.T) {
+	ctx, cancelFunc := context.WithCancel(context.Background())
+	ticker := time.NewTicker(3 * time.Second)
+	go func() {
+		time.Sleep(10 * time.Second)
+		cancelFunc()
+	}()
+	for  {
+		select {
+		case <-ctx.Done():
+			println("stop")
+			return
+		case <-ticker.C:
+			println("tiktok")
+		default:
+		}
+	}
+}
 
+func Test_net(t *testing.T) {
+
+	println("test...")
+}
+
+
+
+
+func serve(conn net.Conn){
+	defer conn.Close()
+	var buf []byte
+	// 读取连接中的数据
+	_,_ = conn.Read(buf)
+	// ...
 }
