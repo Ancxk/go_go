@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"sync"
 	"sync/atomic"
@@ -133,20 +134,22 @@ func (p *pool) submit(fn func()) {
 	w.ch <- fn
 }
 
-func main() {
-	st := time.Now().UnixMilli()
-	defer func() {
-		ut := time.Now().UnixMilli()
-		log.Printf("%d ms", ut-st)
+func main3() {
+	//main2()
+	ctx := context.Background()
+	c, cancel := context.WithCancel(ctx)
+
+	go func() {
+		time.Sleep(3 * time.Second)
+		cancel()
 	}()
-	p := newPool(100)
-	wg := sync.WaitGroup{}
-	for i := 0; i < 100000; i++ {
-		wg.Add(1)
-		p.submit(func() {
-			defer wg.Done()
-			println("hello world")
-		})
+	for {
+		select {
+		case <-c.Done():
+			return
+		default:
+			time.Sleep(time.Second)
+		}
 	}
-	wg.Wait()
+
 }
